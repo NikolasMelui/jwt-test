@@ -1,12 +1,25 @@
-const express = require('./node_modules/express');
+const express = require('express');
 const jwt = require('jsonwebtoken');
 
 const port = 3000;
 const app = express();
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
   res.json({
-    message: 'Hello there!'
+    message: 'Main page!'
+  });
+});
+
+app.post('/login', (req, res) => {
+  const user = {
+    id: 1,
+    username: 'NikolasMelui',
+    email: 'slak@samaradom.ru'
+  };
+  jwt.sign({ user }, 'secretkey', (err, token) => {
+    res.json({
+      token
+    });
   });
 });
 
