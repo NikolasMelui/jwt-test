@@ -1,3 +1,5 @@
+import { log } from 'util';
+
 const express = require('express');
 const jwt = require('jsonwebtoken');
 
@@ -10,7 +12,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', verifyToken, (req, res) => {
   const user = {
     id: 1,
     username: 'NikolasMelui',
@@ -22,5 +24,16 @@ app.post('/login', (req, res) => {
     });
   });
 });
+
+function verifyToken(req, res, next) {
+  const bearerHeader = req.headers.authorization;
+  if (typeof bearerHeader !== 'undefined') {
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    next();
+  } else {
+    res.sendStatus(403);
+  }
+}
 
 app.listen(port, () => global.console.log(`Server is listening on port: ${port}`));
