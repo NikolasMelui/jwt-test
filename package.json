@@ -1,13 +1,28 @@
 {
   "name": "jwt-test",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "I tested jsonwebtoken.",
   "main": "app.js",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0"
+  },
   "devDependencies": {
+    "eslint": "^4.16.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-import": "^2.8.0"
+    "eslint-plugin-import": "^2.8.0",
+    "nodemon": "^1.14.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "browser": true
+    },
+    "extends": [
+      "airbnb-base",
+      "prettier"
+    ]
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +32,7 @@
     "url": "git+https://github.com/NikolasMelui/jwt-test.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "NikolasMelui",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/NikolasMelui/jwt-test/issues"
