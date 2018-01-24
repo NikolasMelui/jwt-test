@@ -5,7 +5,7 @@ const port = 3000;
 const app = express();
 
 function verifyToken(req, res, next) {
-  const bearerHeader = req.headers['authorization'];
+  const bearerHeader = req.headers.authorization;
   if (typeof bearerHeader !== 'undefined') {
     req.token = bearerHeader;
     next();
