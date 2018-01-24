@@ -12,11 +12,17 @@ app.get('/', (req, res) => {
   });
 });
 
+app.post('/post', (req, res) => {
+  res.json({
+    message: 'Post created'
+  });
+});
+
 app.post('/login', verifyToken, (req, res) => {
   const user = {
     id: 1,
-    username: 'NikolasMelui',
-    email: 'slak@samaradom.ru'
+    username: 'nikolasmelui',
+    password: 'password'
   };
   jwt.sign({ user }, 'secretkey', (err, token) => {
     res.json({
@@ -30,6 +36,7 @@ function verifyToken(req, res, next) {
   if (typeof bearerHeader !== 'undefined') {
     const bearer = bearerHeader.split(' ');
     const bearerToken = bearer[1];
+    req.token = bearerToken;
     next();
   } else {
     res.sendStatus(403);
