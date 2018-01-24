@@ -27,7 +27,7 @@ app.post('/login', (req, res) => {
     email: 'slak@samaradom.ru'
   };
 
-  jwt.sign({ user }, 'secretkey', (err, token) => {
+  jwt.sign({ user }, 'secretkey', { expiresIn: '1h' }, (err, token) => {
     res.json({
       token
     });
