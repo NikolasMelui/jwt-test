@@ -40,7 +40,7 @@ app.post('/posts', verifyToken, (req, res) => {
       res.json({
         msg: req.token
       });
-      // res.sendStatus(403);
+      res.sendStatus(403);
     } else {
       res.json({
         message: 'Post created',
