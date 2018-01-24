@@ -1,10 +1,18 @@
-import { log } from 'util';
-
 const express = require('express');
-const jwt = require('jsonwebtoken');
+const jwt = require('./node_modules/jsonwebtoken');
 
 const port = 3000;
 const app = express();
+
+function verifyToken(req, res, next) {
+  const bearerHeader = req.headers['authorization'];
+  if (typeof bearerHeader !== 'undefined') {
+    req.token = bearerHeader;
+    next();
+  } else {
+    res.sendStatus(403);
+  }
+}
 
 app.get('/', (req, res) => {
   res.json({
@@ -12,18 +20,13 @@ app.get('/', (req, res) => {
   });
 });
 
-app.post('/post', (req, res) => {
-  res.json({
-    message: 'Post created'
-  });
-});
-
-app.post('/login', verifyToken, (req, res) => {
+app.post('/login', (req, res) => {
   const user = {
     id: 1,
     username: 'nikolasmelui',
-    password: 'password'
+    email: 'slak@samaradom.ru'
   };
+
   jwt.sign({ user }, 'secretkey', (err, token) => {
     res.json({
       token
@@ -31,16 +34,20 @@ app.post('/login', verifyToken, (req, res) => {
   });
 });
 
-function verifyToken(req, res, next) {
-  const bearerHeader = req.headers.authorization;
-  if (typeof bearerHeader !== 'undefined') {
-    const bearer = bearerHeader.split(' ');
-    const bearerToken = bearer[1];
-    req.token = bearerToken;
-    next();
-  } else {
-    res.sendStatus(403);
-  }
-}
+app.post('/posts', verifyToken, (req, res) => {
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if (err) {
+      res.json({
+        msg: req.token
+      });
+      // res.sendStatus(403);
+    } else {
+      res.json({
+        message: 'Post created',
+        authData
+      });
+    }
+  });
+});
 
 app.listen(port, () => global.console.log(`Server is listening on port: ${port}`));
